@@ -1,8 +1,11 @@
 app.controller('MainController', function ($scope, FlashCardsFactory, ScoreFactory) {
     $scope.flashCardFunction = FlashCardsFactory.getFlashCards;
+    $scope.loading = false;
     $scope.getCategoryCards = function(category){
+        $scope.loading = true;
         $scope.flashCardFunction(category).then(function(response){
             console.log(response);
+            $scope.loading = false;
             $scope.flashCards = response;
             $scope.current = category;
         });
@@ -14,6 +17,7 @@ app.controller('MainController', function ($scope, FlashCardsFactory, ScoreFacto
         'Node'
     ];
     $scope.answerQuestion = function (answer, flashCard) {
+        console.log(answer, flashCard);
         if (!flashCard.answered) {
             flashCard.answered = true;
             flashCard.answeredCorrectly = answer.correct;
